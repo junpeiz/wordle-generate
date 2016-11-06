@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "utf-8"/>
+	<title>Wordle implemented by Junpei ZHOU</title>
+	<script src = "my_wordle.js"></script>
+</head>
+
+<body>
+	<a> 
+	Please enter the sentence you want to generate the wordle:
+	<input type="text" id="sentenceInput" size="50"/>
+	<button type="button" onclick="generateWordle()">Generare</button>
+	</a>
+
+	<canvas id = "wordleCanvas" height = "800" width = "800"/>
+
+	<script>
+	function generateWordle() {
+    	var sentence= document.getElementById("sentenceInput").value;
+    	if(sentence == null || sentence == ""){
+    		var wordSet = ["I", "love", "you", "more", "than", "yesterday", "and", "less", "than", "tomorrow"];	
+    		alert("No sentence recieved. Use the default sentence");
+    	}
+    	else
+    		wordSet = genWordSet(sentence);
+
+		var font = "impact";
+		var words = [];
+
+		for( var i = 0; i < wordSet.length; i++ )
+		{
+			var newWord = {};
+			newWord.word = wordSet[i];
+			newWord.weight = Math.floor( 2 + Math.random() * 6 );
+			words.push(newWord);
+		}
+
+		var canvas = document.getElementById("wordleCanvas");
+		var params = {};
+		params.words = words;
+		params.canvas = canvas;
+		params.font = font;
+		var wordle = new MyWordCloud(params);
+		wordle.run();    	
+	}
+
+	function genWordSet(sentence){
+		wordSet = sentence.split(" ");
+		return wordSet;
+	}
+	</script>
+</body>
+</html>
